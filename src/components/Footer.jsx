@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer className="border-t border-border p-4 text-center text-sm text-muted">
-      <p>Feito por Arthur Pontes · UC15 · Senac</p>
+      <p>Feito por Arthur · UC15 · Senac</p>
     </footer>
   );
 }
