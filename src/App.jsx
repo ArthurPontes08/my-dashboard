@@ -3,6 +3,7 @@ import Footer from './components/Footer.jsx';
 import Menu from './components/Menu.jsx';
 import SummaryCard from './components/SummaryCard.jsx';
 import Panel from './components/Panel.jsx';
+import InfoRow from './components/InfoRow.jsx';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
 
         <Panel id="summary" title="Resumo" className="md:col-span-2">
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            <SummaryCard title="Saldo atual" value={42} icon="🎮" />
+            <SummaryCard title="Saldo atual" value={420} icon="🎮" />
             <SummaryCard title="Despesas" value={318} icon="⏱️" />
             <SummaryCard
               title="Investimentos"
@@ -25,6 +26,7 @@ function App() {
               icon="🏆"
               isHighlighted
             />
+
             <SummaryCard title="Economia" value="8,6" icon={null} />
           </div>
         </Panel>
@@ -40,6 +42,13 @@ function App() {
           <p className="mt-1 text-muted">
             Fechamento e pagamento previsto para os próximos dias.
           </p>
+
+          <div className="mt-4 grid gap-x-6 md:grid-cols-2">
+            <InfoRow label="Vencimento" value="15/11/2026" />
+            <InfoRow label="Valor atual" value="R$ 1.450,00" />
+            <InfoRow label="Instituição" value="Nubank" />
+            <InfoRow label="Limite usado" value="48%" />
+          </div>
         </Panel>
 
         <Panel id="list" title="Lista" className="xl:min-h-80">
