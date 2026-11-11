@@ -5,6 +5,7 @@ import SummaryCard from './components/SummaryCard.jsx';
 import Panel from './components/Panel.jsx';
 import InfoRow from './components/InfoRow.jsx';
 import StatusBadge from './components/StatusBadge.jsx';
+import DetailsToggle from './components/DetailsToggles.jsx';
 
 function App() {
   return (
@@ -37,9 +38,11 @@ function App() {
           title="Próximo vencimento"
           className="md:col-span-2"
         >
-
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="font-heading text-xl font-bold"> Fatura do Cartão de Crédito</h3>
+            <h3 className="font-heading text-xl font-bold">
+              {' '}
+              Fatura do Cartão de Crédito
+            </h3>
             <StatusBadge label="Jogando" isActive />
             <StatusBadge label="Single player" />
           </div>
@@ -54,6 +57,10 @@ function App() {
             <InfoRow label="Instituição" value="Nubank" />
             <InfoRow label="Limite usado" value="48%" />
           </div>
+
+          <DetailsToggle>
+            <p>Falta o último chefe e 3 áreas do mapa.</p>
+          </DetailsToggle>
         </Panel>
 
         <Panel id="list" title="Lista" className="xl:min-h-80">
