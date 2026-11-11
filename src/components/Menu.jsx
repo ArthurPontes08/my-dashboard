@@ -15,7 +15,7 @@ export default function Menu() {
   }
 
   return (
-    <>
+    <nav className="flex flex-col gap-2 xl:row-span-3">
       <button
         type="button"
         onClick={toggleMenu}
@@ -35,8 +35,16 @@ export default function Menu() {
         <li>
           <a href="#summary" onClick={closeMenu} className={linkClass}>Resumo</a>
         </li>
-        {/* Adicione os links de Lista (#list) e Gráfico (#chart) aqui se desejar */}
+        <li>
+          <a href="#highlight" onClick={closeMenu} className={linkClass}>Próximo vencimento</a>
+        </li>
+        <li>
+          <a href="#list" onClick={closeMenu} className={linkClass}>Extrato</a>
+        </li>
+        <li>
+          <a href="#chart" onClick={closeMenu} className={linkClass}>Gastos por mês</a>
+        </li>
       </ul>
-    </>
+    </nav>
   )
 }
