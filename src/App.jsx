@@ -4,6 +4,7 @@ import Menu from './components/Menu.jsx';
 import SummaryCard from './components/SummaryCard.jsx';
 import Panel from './components/Panel.jsx';
 import InfoRow from './components/InfoRow.jsx';
+import StatusBadge from './components/StatusBadge.jsx';
 
 function App() {
   return (
@@ -36,9 +37,13 @@ function App() {
           title="Próximo vencimento"
           className="md:col-span-2"
         >
-          <h3 className="font-heading text-xl font-bold">
-            Fatura do Cartão de Crédito
-          </h3>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-heading text-xl font-bold"> Fatura do Cartão de Crédito</h3>
+            <StatusBadge label="Jogando" isActive />
+            <StatusBadge label="Single player" />
+          </div>
+
           <p className="mt-1 text-muted">
             Fechamento e pagamento previsto para os próximos dias.
           </p>
