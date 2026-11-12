@@ -20,6 +20,14 @@ const summaryCards = [
   { id: 'savings', title: 'Economia', value: '24%' },
 ];
 
+const transactions = [
+  { id: 't1', title: 'Supermercado Dia', amount: 'R$ 320,50', isPaid: true },
+  { id: 't2', title: 'Salário Mensal', amount: 'R$ 4.500,00', isPaid: true },
+  { id: 't3', title: 'Conta de Luz', amount: 'R$ 185,20', isPaid: false },
+  { id: 't4', title: 'Assinatura Netflix', amount: 'R$ 55,90', isPaid: true },
+  { id: 't5', title: 'Manutenção Veículo', amount: 'R$ 450,00', isPaid: false },
+];
+
 function App() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -75,12 +83,25 @@ function App() {
           </DetailsToggle>
         </Panel>
 
-        <Panel id="list" title="Lista" className="xl:min-h-80">
+        <Panel id="list" title="Extrato" className="xl:min-h-80">
           <p className="text-muted">Em construção.</p>
         </Panel>
 
-        <Panel id="chart" title="Gráfico" className="xl:min-h-80">
-          <p className="text-muted">Em construção.</p>
+        <Panel id="list" title="Extrato" className="xl:min-h-80">
+          <ul className="flex flex-col">
+            {transactions.map((tx) => (
+              <li
+                key={tx.id}
+                className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3"
+              >
+                <div>
+                  <p className="font-bold">{tx.title}</p>
+                  <p className="text-sm text-muted">Transação recente</p>
+                </div>
+                <span className="font-semibold">{tx.amount}</span>
+              </li>
+            ))}
+          </ul>
         </Panel>
       </main>
       <Footer />
