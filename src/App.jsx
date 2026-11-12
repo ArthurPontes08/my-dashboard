@@ -5,7 +5,20 @@ import SummaryCard from './components/SummaryCard.jsx';
 import Panel from './components/Panel.jsx';
 import InfoRow from './components/InfoRow.jsx';
 import StatusBadge from './components/StatusBadge.jsx';
-import DetailsToggle from './components/DetailsToggles.jsx';
+import DetailsToggle from './components/DetailsToggle.jsx';
+
+const summaryCards = [
+  {
+    id: 'balance',
+    title: 'Saldo atual',
+    value: 'R$ 4.250',
+    icon: '💰',
+    isHighlighted: true,
+  },
+  { id: 'expenses', title: 'Despesas', value: 'R$ 1.890', icon: '📉' },
+  { id: 'investments', title: 'Investimentos', value: 'R$ 12.400', icon: '📈' },
+  { id: 'savings', title: 'Economia', value: '24%' },
+];
 
 function App() {
   return (
@@ -20,16 +33,15 @@ function App() {
 
         <Panel id="summary" title="Resumo" className="md:col-span-2">
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            <SummaryCard title="Saldo atual" value={420} icon="🎮" />
-            <SummaryCard title="Despesas" value={318} icon="⏱️" />
-            <SummaryCard
-              title="Investimentos"
-              value={17}
-              icon="🏆"
-              isHighlighted
-            />
-
-            <SummaryCard title="Economia" value="8,6" icon={null} />
+            {summaryCards.map((card) => (
+              <SummaryCard
+                key={card.id}
+                title={card.title}
+                value={card.value}
+                icon={card.icon}
+                isHighlighted={card.isHighlighted}
+              />
+            ))}
           </div>
         </Panel>
 
