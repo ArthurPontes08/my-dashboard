@@ -6,6 +6,8 @@ import Panel from './components/Panel.jsx';
 import InfoRow from './components/InfoRow.jsx';
 import StatusBadge from './components/StatusBadge.jsx';
 import DetailsToggle from './components/DetailsToggle.jsx';
+import ListItem from './components/ListItem.jsx';
+import { useState } from 'react';
 
 const summaryCards = [
   {
@@ -27,8 +29,19 @@ const transactions = [
   { id: 't4', title: 'Assinatura Netflix', amount: 'R$ 55,90', isPaid: true },
   { id: 't5', title: 'Manutenção Veículo', amount: 'R$ 450,00', isPaid: false },
 ];
-
+const filterOptions = [
+  { id: 'all', label: 'Todas' },
+  { id: 'paid', label: 'Pagas' },
+  { id: 'pending', label: 'Pendentes' },
+];
 function App() {
+  const [statusFilter, setStatusFilter] = useState('all');
+
+  const visibleTransactions = transactions.filter((tx) => {
+    if (statusFilter === 'paid') return tx.isPaid;
+    if (statusFilter === 'pending') return !tx.isPaid;
+    return true;
+  });
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
@@ -84,24 +97,42 @@ function App() {
         </Panel>
 
         <Panel id="list" title="Extrato" className="xl:min-h-80">
-          <p className="text-muted">Em construção.</p>
-        </Panel>
-
-        <Panel id="list" title="Extrato" className="xl:min-h-80">
-          <ul className="flex flex-col">
-            {transactions.map((tx) => (
-              <li
-                key={tx.id}
-                className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3"
+          <div className="mb-4 flex flex-wrap gap-2">
+            {filterOptions.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => setStatusFilter(option.id)}
+                aria-pressed={statusFilter === option.id}
+                className={
+                  statusFilter === option.id
+                    ? 'rounded-full border border-primary bg-primary px-3 py-1 text-sm font-semibold text-background'
+                    : 'rounded-full border border-border px-3 py-1 text-sm text-muted hover:border-primary'
+                }
               >
-                <div>
-                  <p className="font-bold">{tx.title}</p>
-                  <p className="text-sm text-muted">Transação recente</p>
-                </div>
-                <span className="font-semibold">{tx.amount}</span>
-              </li>
+                {option.label}
+              </button>
             ))}
-          </ul>
+          </div>
+
+          {visibleTransactions.length === 0 ? (
+            <p className="text-muted">Nenhuma transação encontrada.</p>
+          ) : (
+            <ul className="flex flex-col">
+              {visibleTransactions.map((tx) => (
+                <li
+                  key={tx.id}
+                  className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-3"
+                >
+                  <div>
+                    <p className="font-bold">{tx.title}</p>
+                    <p className="text-sm text-muted">Transação recente</p>
+                  </div>
+                  <span className="font-semibold">{tx.amount}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </Panel>
       </main>
       <Footer />
