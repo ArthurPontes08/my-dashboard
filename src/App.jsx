@@ -29,19 +29,28 @@ const transactions = [
   { id: 't4', title: 'Assinatura Netflix', amount: 'R$ 55,90', isPaid: true },
   { id: 't5', title: 'Manutenção Veículo', amount: 'R$ 450,00', isPaid: false },
 ];
+
 const filterOptions = [
   { id: 'all', label: 'Todas' },
   { id: 'paid', label: 'Pagas' },
   { id: 'pending', label: 'Pendentes' },
 ];
+
 function App() {
   const [statusFilter, setStatusFilter] = useState('all');
+  const [search, setSearch] = useState('');
 
   const visibleTransactions = transactions.filter((tx) => {
-    if (statusFilter === 'paid') return tx.isPaid;
-    if (statusFilter === 'pending') return !tx.isPaid;
-    return true;
+    const matchesStatus =
+      statusFilter === 'all' ||
+      (statusFilter === 'paid' && tx.isPaid) ||
+      (statusFilter === 'pending' && !tx.isPaid);
+
+    const matchesSearch = tx.title.toLowerCase().includes(search.toLowerCase());
+
+    return matchesStatus && matchesSearch;
   });
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
@@ -73,11 +82,10 @@ function App() {
         >
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="font-heading text-xl font-bold">
-              {' '}
               Fatura do Cartão de Crédito
             </h3>
-            <StatusBadge label="Jogando" isActive />
-            <StatusBadge label="Single player" />
+            <StatusBadge label="Em aberto" isActive />
+            <StatusBadge label="Débito automático" />
           </div>
 
           <p className="mt-1 text-muted">
@@ -92,11 +100,30 @@ function App() {
           </div>
 
           <DetailsToggle>
-            <p>Falta o último chefe e 3 áreas do mapa.</p>
+            <p>
+              Inclui gastos com supermercado, assinaturas de serviços digitais e
+              farmácia acumulados no ciclo atual.
+            </p>
           </DetailsToggle>
         </Panel>
 
         <Panel id="list" title="Extrato" className="xl:min-h-80">
+          {/* Caixa de Pesquisa (Input Controlado) */}
+          <div className="mb-4">
+            <label htmlFor="transaction-search" className="sr-only">
+              Pesquisar transação
+            </label>
+            <input
+              id="transaction-search"
+              type="search"
+              placeholder="Pesquisar por nome..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+            />
+          </div>
+
+          {/* Botões de Filtro */}
           <div className="mb-4 flex flex-wrap gap-2">
             {filterOptions.map((option) => (
               <button
@@ -115,6 +142,7 @@ function App() {
             ))}
           </div>
 
+          {/* Lista Filtrada ou Mensagem de Vazio */}
           {visibleTransactions.length === 0 ? (
             <p className="text-muted">Nenhuma transação encontrada.</p>
           ) : (
