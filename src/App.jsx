@@ -8,27 +8,7 @@ import StatusBadge from './components/StatusBadge.jsx';
 import DetailsToggle from './components/DetailsToggle.jsx';
 import ListItem from './components/ListItem.jsx';
 import { useState } from 'react';
-
-const summaryCards = [
-  {
-    id: 'balance',
-    title: 'Saldo atual',
-    value: 'R$ 4.250',
-    icon: '💰',
-    isHighlighted: true,
-  },
-  { id: 'expenses', title: 'Despesas', value: 'R$ 1.890', icon: '📉' },
-  { id: 'investments', title: 'Investimentos', value: 'R$ 12.400', icon: '📈' },
-  { id: 'savings', title: 'Economia', value: '24%' },
-];
-
-const transactions = [
-  { id: 't1', title: 'Supermercado Dia', amount: 'R$ 320,50', isPaid: true },
-  { id: 't2', title: 'Salário Mensal', amount: 'R$ 4.500,00', isPaid: true },
-  { id: 't3', title: 'Conta de Luz', amount: 'R$ 185,20', isPaid: false },
-  { id: 't4', title: 'Assinatura Netflix', amount: 'R$ 55,90', isPaid: true },
-  { id: 't5', title: 'Manutenção Veículo', amount: 'R$ 450,00', isPaid: false },
-];
+import { transactions } from './data/transactions.js';
 
 const filterOptions = [
   { id: 'all', label: 'Todas' },
@@ -39,6 +19,30 @@ const filterOptions = [
 function App() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [search, setSearch] = useState('');
+
+  const totalAmount = transactions.reduce((total, tx) => total + tx.amount, 0);
+
+  const paidCount = transactions.filter((tx) => tx.isPaid).length;
+
+  const pendingCount = transactions.length - paidCount;
+
+  const summaryCards = [
+    {
+      id: 'balance',
+      title: 'Total Registado',
+      value: `R$ ${totalAmount.toFixed(2)}`,
+      icon: '💰',
+      isHighlighted: true,
+    },
+    {
+      id: 'total-tx',
+      title: 'Transações',
+      value: transactions.length,
+      icon: '📄',
+    },
+    { id: 'paid-tx', title: 'Pagas', value: paidCount, icon: '✅' },
+    { id: 'pending-tx', title: 'Pendentes', value: pendingCount, icon: '⏳' },
+  ];
 
   const visibleTransactions = transactions.filter((tx) => {
     const matchesStatus =
@@ -108,7 +112,6 @@ function App() {
         </Panel>
 
         <Panel id="list" title="Extrato" className="xl:min-h-80">
-          {/* Caixa de Pesquisa (Input Controlado) */}
           <div className="mb-4">
             <label htmlFor="transaction-search" className="sr-only">
               Pesquisar transação
@@ -123,7 +126,6 @@ function App() {
             />
           </div>
 
-          {/* Botões de Filtro */}
           <div className="mb-4 flex flex-wrap gap-2">
             {filterOptions.map((option) => (
               <button
@@ -142,7 +144,6 @@ function App() {
             ))}
           </div>
 
-          {/* Lista Filtrada ou Mensagem de Vazio */}
           {visibleTransactions.length === 0 ? (
             <p className="text-muted">Nenhuma transação encontrada.</p>
           ) : (
@@ -156,7 +157,9 @@ function App() {
                     <p className="font-bold">{tx.title}</p>
                     <p className="text-sm text-muted">Transação recente</p>
                   </div>
-                  <span className="font-semibold">{tx.amount}</span>
+                  <span className="font-semibold">
+                    R$ {tx.amount.toFixed(2)}
+                  </span>
                 </li>
               ))}
             </ul>
